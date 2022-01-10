@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.static('public'));
+app.use('/api/users', require('./routes/users'));
 
 app.listen(PORT, () => {
     console.log(`Server running on port: http://localhost:${PORT}`);
