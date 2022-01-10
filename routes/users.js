@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validateFields } = require('../middlewares/validate-fields');
+const { email } = require('../helpers/db-validators');
 
 const { 
     userGet, 
@@ -15,6 +16,7 @@ router.get('/', userGet);
 
 router.post('/',[
     check('name', 'El nombre es obligatorio').notEmpty(),
+    check('email', 'El email es obligatorio').custom(email).notEmpty(),
     validateFields
 ], userPost);
 
