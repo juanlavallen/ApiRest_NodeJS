@@ -14,7 +14,7 @@ const userPost = (req, res) => {
 
     const salt = bcryptjs.genSaltSync();
     user.password = bcryptjs.hashSync(password, salt);
-
+    
     res.json({
         msg: 'post API',
         user
