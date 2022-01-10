@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validateFields } = require('../middlewares/validate-fields');
-const { email } = require('../helpers/db-validators');
+const { email, role } = require('../helpers/db-validators');
 
 const {
     userGet,
@@ -18,6 +18,7 @@ router.post('/', [
     check('name', 'El nombre es obligatorio').notEmpty(),
     check('email', 'El email es obligatorio').custom(email).notEmpty(),
     check('password', 'La contraseña es obligatoria').notEmpty().isLength({ min: 8 }),
+    check('role', 'El rol es obligatorio').custom(role).notEmpty(),
     validateFields
 ], userPost);
 
