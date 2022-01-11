@@ -14,16 +14,26 @@ const userPost = (req, res) => {
 
     const salt = bcryptjs.genSaltSync();
     user.password = bcryptjs.hashSync(password, salt);
-    
+
     res.json({
-        msg: 'post API',
         user
     });
 }
 
-const userPut = (req, res) => {
+const userPut = async (req, res) => {
+
+    const { id } = req.params;
+    const { _id, google, email, password, ...rest } = req.body;
+
+    if (password) {
+        const salt = bcryptjs.genSaltSync();
+        rest.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const userUpdate = await User.findByIdAndUpdate(id, rest);
+
     res.json({
-        msg: 'put API'
+        userUpdate
     });
 }
 
