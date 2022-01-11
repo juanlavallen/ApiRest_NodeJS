@@ -1,19 +1,33 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 
-const userGet = (req, res) => {
+const userGet = async (req, res) => {
+
+    const { limit = 10, from = 0 } = req.query;
+    const query = { status: true }
+
+    const [total, users] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+            .skip(Number(from))
+            .limit(Number(limit))
+    ]);
+
     res.json({
-        msg: 'get API'
+        total,
+        users
     });
 }
 
-const userPost = (req, res) => {
+const userPost = async (req, res) => {
 
     const { name, email, password, role } = req.body;
     const user = new User({ name, email, password, role });
 
     const salt = bcryptjs.genSaltSync();
     user.password = bcryptjs.hashSync(password, salt);
+
+    await user.save();
 
     res.json({
         user
