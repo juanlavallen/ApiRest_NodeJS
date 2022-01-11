@@ -37,7 +37,7 @@ const userPut = async (req, res) => {
     });
 }
 
-const userDelete = async(req, res) => {
+const userDelete = async (req, res) => {
 
     const { id } = req.params;
 
