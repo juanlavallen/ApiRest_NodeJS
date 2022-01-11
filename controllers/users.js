@@ -37,9 +37,14 @@ const userPut = async (req, res) => {
     });
 }
 
-const userDelete = (req, res) => {
+const userDelete = async(req, res) => {
+
+    const { id } = req.params;
+
+    const userDelete = await User.findByIdAndUpdate(id, { status: false });
+
     res.json({
-        msg: 'delete API'
+        userDelete
     });
 }
 
