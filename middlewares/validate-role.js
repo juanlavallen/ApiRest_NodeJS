@@ -13,9 +13,29 @@ const adminRole = (req, res, next) => {
             msg: `${name} no es Administrador`
         });
     }
+
+    next();
 }
 
+const roles = (...roles) => {
+    return (req, res, next) => {
+        if (!req.user) {
+            return res.status(500).json({
+                msg: 'No se puede verificar el rol sin antes validar el token'
+            });
+        }
+
+        if (!roles.includes(req.user.role)) {
+            return res.status(401).json({
+                msg: `El servicio require uno de estos roles ${roles}`
+            });
+        }
+
+        next();
+    }
+}
 
 module.exports = {
-    adminRole
+    adminRole,
+    roles
 }

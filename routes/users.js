@@ -11,7 +11,7 @@ const {
     userPost,
     userPut,
     userDelete } = require('../controllers/users');
-const { adminRole } = require('../middlewares/validate-role');
+const { adminRole, roles } = require('../middlewares/validate-role');
 
 const router = Router();
 
@@ -34,7 +34,8 @@ router.put('/:id',[
 
 router.delete('/:id', [
     validateJWT,
-    adminRole,
+    // adminRole,
+    roles('ADMIN_ROLE', 'SALES_ROLE'),
     check('id', 'El ID no es valido').isMongoId(),
     check('id').custom(userId),
     validateFields
